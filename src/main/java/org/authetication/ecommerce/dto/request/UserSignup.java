@@ -9,8 +9,8 @@ public record UserSignup(
         String username,
 
         @NotBlank(message = "password name can not be blank")
-        @Length(min = 5,message = "password should contains 5 letter")
-                String password,
+//        @Length(min = 5,message = "password should contains 5 letter")
+        String password,
 
         @NotBlank(message = "email name can not be blank")
         @Email(message = "email should be valid")

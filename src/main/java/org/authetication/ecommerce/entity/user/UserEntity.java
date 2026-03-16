@@ -5,37 +5,40 @@ import jakarta.validation.constraints.NotBlank;
 import org.authetication.ecommerce.entity.roles.RolesEntity;
 
 @Entity
-@Table(name = "users_table",uniqueConstraints = @UniqueConstraint(columnNames = {"userid","username"}))
+@Table(name = "users_table")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long userid;
 
-     @NotBlank
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
+    @NotBlank
     @Column(nullable = false,unique = true)
     private String username;
 
+    @NotBlank
      @Column(nullable = false,unique = true)
     private String email;
 
-    @Column(nullable = false,unique = true)
+    @NotBlank
+    @Column(nullable = false)
     private String password;
 
-    // @ManyToOne
-    // @JoinColumn(name = "role_id")
-    // private RolesEntity role;
+     @ManyToOne
+     @JoinColumn(name = "role_id")
+     private RolesEntity role;
 
     public UserEntity() {}
 
-    public UserEntity(String name, String email, String password, String username, RolesEntity role) {
+    public UserEntity(String name, String email, String password, String username,RolesEntity role) {
         this.name     = name;
         this.email    = email;
         this.password = password;
         this.username = username;
-        // this.role = role;
+         this.role = role;
     }
 
 
@@ -48,7 +51,7 @@ public class UserEntity {
     public void setEmail(String email)     { this.email = email; }
     public String getPassword()            { return password; }
     public void setPassword(String pw)     { this.password = pw; }
-    // public RolesEntity getRole()                { return role; }
-    // public void setRole(RolesEntity role)       { this.role = role; }
+     public RolesEntity getRole()                { return role; }
+     public void setRole(RolesEntity role)       { this.role = role; }
 
 }

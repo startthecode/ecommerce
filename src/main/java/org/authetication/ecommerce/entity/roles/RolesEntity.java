@@ -4,13 +4,16 @@ package org.authetication.ecommerce.entity.roles;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "role_table",uniqueConstraints = @UniqueConstraint(columnNames = {"role_id","role"}))
+@Table(name = "role_table"
+//        ,uniqueConstraints = @UniqueConstraint(columnNames = {"role_id","role"})
+)
 public class RolesEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int roleId;
 
-    @Column(nullable = false)
+
+    @Column(nullable = false,unique = true)
     private String role;
 
 
