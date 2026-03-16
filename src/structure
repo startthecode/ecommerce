@@ -1,0 +1,98 @@
+com.ashish.ecommerce
+│
+├── config
+│   ├── SecurityConfig
+│   ├── JwtConfig
+│   ├── WebConfig
+│
+├── security
+│   ├── jwt
+│   │   ├── JwtFilter
+│   │   ├── JwtService
+│   │   ├── JwtAuthenticationEntryPoint
+│   │
+│   ├── userdetails
+│   │   ├── CustomUserDetails
+│   │   ├── CustomUserDetailsService
+│
+│   └── roles
+│       ├── Role
+│       └── Permission
+│
+├── controller
+│   ├── auth
+│   │   └── AuthController
+│   │
+│   ├── user
+│   │   └── UserController
+│   │
+│   ├── product
+│   │   └── ProductController
+│   │
+│   ├── cart
+│   │   └── CartController
+│   │
+│   ├── order
+│   │   └── OrderController
+│   │
+│   └── admin
+│       └── AdminController
+│
+├── service
+│   ├── auth
+│   │   └── AuthService
+│   │
+│   ├── user
+│   │   └── UserService
+│   │
+│   ├── product
+│   │   └── ProductService
+│   │
+│   ├── cart
+│   │   └── CartService
+│   │
+│   └── order
+│       └── OrderService
+│
+├── repository
+│   ├── UserRepository
+│   ├── ProductRepository
+│   ├── CartRepository
+│   ├── OrderRepository
+│
+├── entity
+│   ├── User
+│   ├── Role
+│   ├── Product
+│   ├── Category
+│   ├── Cart
+│   ├── CartItem
+│   ├── Order
+│   ├── OrderItem
+│
+├── dto
+│   ├── request
+│   │   ├── LoginRequest
+│   │   ├── RegisterRequest
+│   │
+│   ├── response
+│   │   ├── AuthResponse
+│   │   ├── ProductResponse
+│   │
+│   └── exception
+│       └── ErrorResponse
+│
+├── mapper
+│   ├── ProductMapper
+│   ├── UserMapper
+│
+├── exception
+│   ├── GlobalExceptionHandler
+│   ├── TokenException
+│   ├── ResourceNotFoundException
+│
+├── util
+│   ├── DateUtil
+│   ├── PaginationUtil
+│
+└── EcommerceApplication
