@@ -1,5 +1,7 @@
 package org.authetication.ecommerce.config;
 
+import jakarta.servlet.FilterChain;
+import org.authetication.ecommerce.security.JwtFilterChain;
 import org.authetication.ecommerce.services.imp.UserDetailsImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,18 +10,23 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
     private final UserDetailsImp UserDetailsImp;
+    private final JwtFilterChain jwtFilterChain;
 
-    public SecurityConfig(UserDetailsImp userDetailsImp) {
+    public SecurityConfig(UserDetailsImp userDetailsImp,JwtFilterChain jwtFilterChain) {
         this.UserDetailsImp = userDetailsImp;
+        this.jwtFilterChain = jwtFilterChain;
+
     }
 
     @Bean
@@ -44,11 +51,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(abstractHttpSecurity -> abstractHttpSecurity.disable())
-        .authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/**","/api/public/**").permitAll()
+        http.csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/**","/api/testing/unprotected").permitAll()
                 .anyRequest().authenticated())
                 .sessionManagement(sesssion->sesssion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider());
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtFilterChain, UsernamePasswordAuthenticationFilter.class);
             return http.build();
     }
 
