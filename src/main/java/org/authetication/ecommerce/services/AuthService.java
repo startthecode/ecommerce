@@ -4,6 +4,8 @@ import org.authetication.ecommerce.dto.request.UserLogin;
 import org.authetication.ecommerce.dto.request.UserSignup;
 import org.authetication.ecommerce.entity.roles.RolesEntity;
 import org.authetication.ecommerce.entity.user.UserEntity;
+import org.authetication.ecommerce.exception.AuthException;
+import org.authetication.ecommerce.exception.GenericException;
 import org.authetication.ecommerce.repository.RolesRepository;
 import org.authetication.ecommerce.repository.UserRepository;
 import org.authetication.ecommerce.utils.JwtUtils;
@@ -43,24 +45,41 @@ public class AuthService {
     }
 
     public IssuedTokens register(UserSignup req) {
-         UserEntity userEntity = new UserEntity();
-         RolesEntity role = rolesRepository.findByRole("USER");
-        userEntity.setEmail(req.email());
-        userEntity.setUsername(req.username());
-        userEntity.setName(req.name());
-        userEntity.setPassword(passwordEncoder.encode(req.password()));
-         userEntity.setRole(role);
-        UserEntity savedUser = userRepository.save(userEntity);
-        return issueTokens(savedUser.getUsername(), jwtUtils.generateToken(JwtUtils.TokenType.ACCESS,req.username()), jwtUtils.generateToken(JwtUtils.TokenType.REFRESH,req.username()));
+       try{
+           if(userRepository.findByUsername(req.username()).isPresent()){
+               throw new IllegalArgumentException("username Already Exists");
+           }
+           UserEntity userEntity = new UserEntity();
+           RolesEntity role = rolesRepository.findByRole("USER");
+           userEntity.setEmail(req.email());
+           userEntity.setUsername(req.username());
+           userEntity.setName(req.name());
+           userEntity.setPassword(passwordEncoder.encode(req.password()));
+           userEntity.setRole(role);
+           UserEntity savedUser = userRepository.save(userEntity);
+           return issueTokens(savedUser.getUsername(),
+                   jwtUtils.generateToken(
+                           JwtUtils.TokenType.ACCESS,
+                           req.username()),
+                   jwtUtils.generateToken(
+                           JwtUtils.TokenType.REFRESH,
+                           req.username()));
+       }catch (Exception e){
+           throw new GenericException("unable to create user at this moment");
+       }
     }
 
     public IssuedTokens login(UserLogin req) {
-        Authentication auth = authManager
-                .authenticate(new UsernamePasswordAuthenticationToken(req.username(), req.password()));
-        if (auth.isAuthenticated()) {
-            return issueTokens(req.username(), jwtUtils.generateToken(JwtUtils.TokenType.ACCESS,req.username()), jwtUtils.generateToken(JwtUtils.TokenType.REFRESH,req.username()));
-        }
-        return null;
+
+        authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(req.username(), req.password())
+        );
+
+        return issueTokens(
+                req.username(),
+                jwtUtils.generateToken(JwtUtils.TokenType.ACCESS, req.username()),
+                jwtUtils.generateToken(JwtUtils.TokenType.REFRESH, req.username())
+        );
     }
 
     public IssuedTokens issueTokens(String username,String access_token,String refresh_token) {

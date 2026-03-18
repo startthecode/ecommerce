@@ -5,6 +5,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.authetication.ecommerce.exception.AuthException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -54,9 +55,9 @@ public class JwtUtils{
            Claims decodeToken = this.tokenParse(type,token);
            return decodeToken.getSubject();
        }catch (ExpiredJwtException e){
-           throw  e;
+           throw AuthException.tokenExpired(type);
        }catch (Exception e){
-           return  "";
+           throw AuthException.invalidToken();
        }
 
     }

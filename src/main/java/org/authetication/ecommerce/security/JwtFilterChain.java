@@ -1,13 +1,17 @@
 package org.authetication.ecommerce.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.authetication.ecommerce.services.AuthService;
+import jakarta.validation.constraints.Null;
+import org.authetication.ecommerce.dto.response.ApiBaseResponse;
+import org.authetication.ecommerce.exception.AuthException;
 import org.authetication.ecommerce.services.imp.UserDetailsImp;
 import org.authetication.ecommerce.utils.JwtUtils;
 import org.jspecify.annotations.NonNull;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +25,11 @@ import java.io.IOException;
 public class JwtFilterChain extends  OncePerRequestFilter {
    private final JwtUtils jwtUtils;
     private final UserDetailsImp userDetailsImp;
+    private final ObjectMapper mapper;
 
-    public JwtFilterChain(JwtUtils jwtUtils, UserDetailsImp userDetailsImp){
+
+    public JwtFilterChain(JwtUtils jwtUtils, UserDetailsImp userDetailsImp,ObjectMapper mapper){
+        this.mapper = mapper;
        this.jwtUtils = jwtUtils;
         this.userDetailsImp = userDetailsImp;
     }
@@ -56,9 +63,20 @@ public class JwtFilterChain extends  OncePerRequestFilter {
              SecurityContextHolder.getContext().setAuthentication(authentication);
          }
             filterChain.doFilter(request, response);
-        }catch (Exception e){
-            throw e;
+        } catch (Exception e){
+            sendErrorResponse(response,e);
         }
 
     }
+
+    private void sendErrorResponse(HttpServletResponse response,Exception e) throws IOException {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        if(e instanceof AuthException b){
+            mapper.writeValue(response.getWriter(),new ApiBaseResponse<Null>(b.getStatus(),e.getMessage(),null));
+        }else{
+            mapper.writeValue(response.getWriter(),new ApiBaseResponse<Null>(false,"Something went wrong",null));
+        }
+    }
+
 }
