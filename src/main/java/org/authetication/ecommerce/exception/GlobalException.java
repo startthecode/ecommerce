@@ -4,7 +4,9 @@ import jakarta.validation.constraints.Null;
 import org.authetication.ecommerce.dto.response.ApiBaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.MethodNotAllowedException;
@@ -25,8 +27,29 @@ public class GlobalException {
                 new ApiBaseResponse<>(false, e.getMessage(), null)
         );
     }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiBaseResponse<Null>> invalidPayload(MethodArgumentNotValidException e){
+        String errorMessage = e.getBindingResult()
+                .getFieldErrors()
+                .get(0)
+                .getDefaultMessage();
+        return ResponseEntity.ok(new ApiBaseResponse<>(false,errorMessage,null));
+    }
+
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiBaseResponse<Null>> invalidPayload(AuthorizationDeniedException e){
+
+        return ResponseEntity.ok(new ApiBaseResponse<>(false,"you dont have access to use this endpoints 😁",null));
+    }
+
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiBaseResponse<Null>> handelAllException(Exception e){
+        System.out.println(e);
         return ResponseEntity.ok(new ApiBaseResponse<>(false,"Something went awrong",null));
     }
 

@@ -35,8 +35,7 @@ public class UserPrincipleImp implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));  // e.g. "ROLE_ADMIN"
-        // return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getRole()));  // e.g. "ROLE_ADMIN"
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getRole()));
     }
 
     @Override public boolean isEnabled()               { return true; }

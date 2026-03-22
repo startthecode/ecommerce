@@ -31,6 +31,11 @@ public class UserEntity {
      @JoinColumn(name = "role_id")
      private RolesEntity role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserDtlEntity userdetail;
+
+
+
     public UserEntity() {}
 
     public UserEntity(String name, String email, String password, String username,RolesEntity role) {
@@ -54,4 +59,7 @@ public class UserEntity {
      public RolesEntity getRole()                { return role; }
      public void setRole(RolesEntity role)       { this.role = role; }
 
+    public UserDtlEntity getUserdetail() {
+        return userdetail;
+    }
 }
