@@ -7,10 +7,9 @@ import org.authetication.ecommerce.enums.Status;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "product_table")
@@ -37,13 +36,13 @@ public class ProductEntity {
     private int stock_quantity;
 
     @Column(nullable = true)
-    private float length;
+    private double length;
 
     @Column(nullable = true)
-    private float width;
+    private double width;
 
     @Column(nullable = true)
-    private float height;
+    private double height;
 
     @Column(nullable = true)
     private LocalDateTime published_at;
@@ -73,25 +72,27 @@ public class ProductEntity {
     private PriceEntity price;
 
     @ManyToMany
-    @JoinTable(name = "tags_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "tags_id"))
-    private HashSet<TagsEntity> tags;
+    @JoinTable(name = "tags_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "tags_id"))
+    private Set<TagsEntity> tags;
 
     @ManyToMany
     @JoinTable(name = "products_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private HashSet<CategoryEntity> categories;
+    private Set<CategoryEntity> categories;
 
     @PreUpdate
     @PrePersist
     public void setPublished_at() {
-        if (status.getName() == Status.ACTIVE && status == null) {
+        if (status != null && status.getName() == Status.ACTIVE && published_at == null) {
             published_at = LocalDateTime.now();
         }
     }
 
-    public ProductEntity(BrandEntity brand, HashSet<CategoryEntity> categories, LocalDateTime created_at,
-            String description, float height, ImagesEntity images, float length, PriceEntity price,
+    public ProductEntity(BrandEntity brand, Set<CategoryEntity> categories, LocalDateTime created_at,
+            String description, double height, ImagesEntity images, double length, PriceEntity price,
             LocalDateTime published_at, String short_description, StatusEntity status, int stock_quantity,
-            HashSet<TagsEntity> tags, String title, LocalDateTime updated_at, float width) {
+            Set<TagsEntity> tags, String title, LocalDateTime updated_at, double width) {
         this.brand = brand;
         this.categories = categories;
         this.created_at = created_at;
@@ -121,11 +122,11 @@ public class ProductEntity {
         this.brand = brand;
     }
 
-    public HashSet<CategoryEntity> getCategories() {
+    public Set<CategoryEntity> getCategories() {
         return categories;
     }
 
-    public void setCategories(HashSet<CategoryEntity> categories) {
+    public void setCategories(Set<CategoryEntity> categories) {
         this.categories = categories;
     }
 
@@ -145,11 +146,11 @@ public class ProductEntity {
         this.description = description;
     }
 
-    public float getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -161,11 +162,11 @@ public class ProductEntity {
         this.images = images;
     }
 
-    public float getLength() {
+    public double getLength() {
         return length;
     }
 
-    public void setLength(float length) {
+    public void setLength(double length) {
         this.length = length;
     }
 
@@ -206,18 +207,18 @@ public class ProductEntity {
     }
 
     public int getStock_quantity() {
-        return stock_quantity;
+        return this.stock_quantity;
     }
 
     public void setStock_quantity(int stock_quantity) {
         this.stock_quantity = stock_quantity;
     }
 
-    public HashSet<TagsEntity> getTags() {
+    public Set<TagsEntity> getTags() {
         return tags;
     }
 
-    public void setTags(HashSet<TagsEntity> tags) {
+    public void setTags(Set<TagsEntity> tags) {
         this.tags = tags;
     }
 
@@ -237,11 +238,11 @@ public class ProductEntity {
         this.updated_at = updated_at;
     }
 
-    public float getWidth() {
+    public double getWidth() {
         return width;
     }
 
-    public void setWidth(float width) {
+    public void setWidth(double width) {
         this.width = width;
     }
 }

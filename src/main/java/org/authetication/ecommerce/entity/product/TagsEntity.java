@@ -19,7 +19,6 @@ public class TagsEntity {
 
     public TagsEntity(String name) {
         this.name = name;
-        this.tagid = tagid;
     }
 
     public String getName() {

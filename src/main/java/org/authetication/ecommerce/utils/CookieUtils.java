@@ -4,12 +4,6 @@ package org.authetication.ecommerce.utils;
 import jakarta.servlet.http.Cookie;
 import org.authetication.ecommerce.dto.cookie.CookiePayload;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.time.Duration;
-import java.util.Date;
-
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component

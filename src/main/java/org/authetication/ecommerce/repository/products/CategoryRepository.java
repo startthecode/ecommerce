@@ -1,11 +1,11 @@
 package org.authetication.ecommerce.repository.products;
 
 import org.authetication.ecommerce.entity.product.CategoryEntity;
-import org.authetication.ecommerce.entity.product.PriceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 public interface CategoryRepository  extends JpaRepository<CategoryEntity,Long> {
     Optional<CategoryEntity> findByCategoryid(Long category_id);
+    Optional<CategoryEntity> findAllByName(String name);
 }

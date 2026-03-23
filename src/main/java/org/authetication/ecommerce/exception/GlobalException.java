@@ -3,6 +3,7 @@ package org.authetication.ecommerce.exception;
 import jakarta.validation.constraints.Null;
 import org.authetication.ecommerce.dto.response.ApiBaseResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,8 +22,15 @@ public class GlobalException {
         return ResponseEntity.ok(new ApiBaseResponse<>(e.getStatus(),e.getMessage(),null));
     }
 
-    @ExceptionHandler({BadCredentialsException.class,CredentialException.class, IllegalArgumentException.class, MethodNotAllowedException.class, GenericException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({BadCredentialsException.class,
+            CredentialException.class,
+            IllegalArgumentException.class,
+            MethodNotAllowedException.class,
+            GenericException.class,
+            HttpMessageNotReadableException.class,
+            UsernameNotFoundException.class})
     public ResponseEntity<ApiBaseResponse<Void>> handleExceptions(Exception e) {
+
         return ResponseEntity.ok(
                 new ApiBaseResponse<>(false, e.getMessage(), null)
         );

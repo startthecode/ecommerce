@@ -2,12 +2,9 @@ package org.authetication.ecommerce.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.authetication.ecommerce.entity.product.*;
 import org.authetication.ecommerce.enums.Status;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
+
 
 public record AddProductRequest(
          @NotBlank(message = "Title can not be blank")
@@ -35,10 +32,14 @@ public record AddProductRequest(
          String brand,
          String images,
          Long price,
+         Long comparePrice,
          String[] tags,
          String[] categories
 ) {
     public AddProductRequest{
+        if(status != null){
+            status = Status.ACTIVE;
+        }
         if(status == null){
           status = Status.ACTIVE;
         }

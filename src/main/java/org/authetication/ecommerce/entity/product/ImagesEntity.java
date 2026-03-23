@@ -29,11 +29,9 @@ public class ImagesEntity {
         this.thumbnail = thumbnail;
     }
 
-
     public Long getImageid() {
         return imageid;
     }
-
 
     public String getImagelg() {
         return imagelg;

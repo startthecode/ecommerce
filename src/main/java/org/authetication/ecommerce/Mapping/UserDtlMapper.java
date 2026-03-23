@@ -6,7 +6,6 @@ import org.authetication.ecommerce.entity.user.UserEntity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class UserDtlMapper {
     public  static UserDtlReponse toResponse(UserEntity user, UserDtlEntity userDtl){

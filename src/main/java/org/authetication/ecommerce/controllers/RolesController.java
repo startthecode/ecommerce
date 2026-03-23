@@ -9,7 +9,7 @@ import org.authetication.ecommerce.services.RoleServices;
 import org.authetication.ecommerce.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

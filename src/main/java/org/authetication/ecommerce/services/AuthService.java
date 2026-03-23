@@ -2,9 +2,6 @@ package org.authetication.ecommerce.services;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.Null;
-import org.authetication.ecommerce.dto.cookie.CookiePayload;
 import org.authetication.ecommerce.dto.request.UserLogin;
 import org.authetication.ecommerce.dto.request.UserSignup;
 import org.authetication.ecommerce.entity.roles.RolesEntity;
@@ -13,12 +10,10 @@ import org.authetication.ecommerce.exception.AuthException;
 import org.authetication.ecommerce.exception.GenericException;
 import org.authetication.ecommerce.repository.RolesRepository;
 import org.authetication.ecommerce.repository.UserRepository;
-import org.authetication.ecommerce.utils.CookieUtils;
 import org.authetication.ecommerce.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -104,7 +99,6 @@ public class AuthService{
                     .findFirst()
                     .orElse(null);
         }
-        System.out.println(token);
         if(token == null) throw AuthException.tokenMissing();
         String username = jwtUtils.decodeToken(JwtUtils.TokenType.REFRESH,token);
         return issueTokens(

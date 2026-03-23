@@ -1,7 +1,6 @@
 package org.authetication.ecommerce.entity.product;
 
 import jakarta.persistence.*;
-import org.authetication.ecommerce.enums.Status;
 
 @Entity
 @Table(name = "brand_table")
@@ -11,9 +10,9 @@ public class BrandEntity {
     Long brandid;
 
     @Column(nullable = false,unique = true)
-    private Status name;
+    private String name;
 
-    public BrandEntity( Status name) {
+    public BrandEntity( String name) {
         this.name = name;
     }
 
@@ -24,11 +23,11 @@ public class BrandEntity {
         return brandid;
     }
 
-    public Status getName() {
-        return name;
+    public String getName() {
+        return this.name;
     }
 
-    public void setName(Status name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

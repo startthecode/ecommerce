@@ -1,7 +1,6 @@
 package org.authetication.ecommerce.entity.product;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -14,13 +13,13 @@ public class PriceEntity {
 
     @NotNull
     @Column(nullable = false)
-    Float price;
+    double price;
 
     @NotNull
     @Column(nullable = true)
-    Float compare_at_price;
+    double compare_at_price;
 
-    public PriceEntity(Float compare_at_price, Float price) {
+    public PriceEntity(double compare_at_price, double price) {
         this.compare_at_price = compare_at_price;
         this.price = price;
     }
@@ -34,19 +33,19 @@ public class PriceEntity {
 
 
 
-    public Float getCompare_at_price() {
+    public double getCompare_at_price() {
         return compare_at_price;
     }
 
-    public void setCompare_at_price(Float compare_at_price) {
+    public void setCompare_at_price(double compare_at_price) {
         this.compare_at_price = compare_at_price;
     }
 
-    public Float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

@@ -13,7 +13,7 @@ import org.authetication.ecommerce.entity.user.UserDtlEntity;
 import org.authetication.ecommerce.entity.user.UserEntity;
 import org.authetication.ecommerce.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

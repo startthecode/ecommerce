@@ -1,7 +1,6 @@
 package org.authetication.ecommerce.entity.product;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import org.authetication.ecommerce.enums.Status;
 
 @Entity

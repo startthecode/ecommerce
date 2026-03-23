@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>4.0.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
+        <!--  lookup parent from repository  -->
     </parent>
     <groupId>org.authetication</groupId>
     <artifactId>ecommerce</artifactId>
@@ -31,8 +30,7 @@
         <jjwt.version>0.12.6</jjwt.version>
     </properties>
     <dependencies>
-
-        <!-- ── Web & JPA (your originals, kept exactly) ──────────────────── -->
+        <!--  ── Web & JPA (your originals, kept exactly) ────────────────────  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -45,20 +43,17 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
-
-        <!-- ── Spring Security (added) ────────────────────────────────────── -->
+        <!--  ── Spring Security (added) ──────────────────────────────────────  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
-        <!-- ── Validation (added for @Valid on DTOs) ─────────────────────── -->
+        <!--  ── Validation (added for @Valid on DTOs) ───────────────────────  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
-        <!-- ── JJWT — version from property above ────────────────────────── -->
+        <!--  ── JJWT — version from property above ──────────────────────────  -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -76,16 +71,14 @@
             <version>${jjwt.version}</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- ── PostgreSQL (your original) ────────────────────────────────── -->
+        <!--  ── PostgreSQL (your original) ──────────────────────────────────  -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.10</version>
             <scope>compile</scope>
         </dependency>
-
-        <!-- ── Test ───────────────────────────────────────────────────────── -->
+        <!--  ── Test ─────────────────────────────────────────────────────────  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -100,8 +93,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -110,5 +110,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
