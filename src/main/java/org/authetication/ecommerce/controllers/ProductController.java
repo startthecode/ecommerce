@@ -1,17 +1,14 @@
 package org.authetication.ecommerce.controllers;
 
 import jakarta.validation.Valid;
-import org.authetication.ecommerce.Mapping.products.ProductRespMapper;
-import org.authetication.ecommerce.dto.request.AddProductRequest;
+import org.authetication.ecommerce.dto.request.products.ProductRequestDto;
 import org.authetication.ecommerce.dto.response.ApiBaseResponse;
-import org.authetication.ecommerce.dto.response.product.ProductReponse;
-import org.authetication.ecommerce.entity.product.ProductEntity;
-import org.authetication.ecommerce.services.ProductService;
+import org.authetication.ecommerce.dto.response.product.ProductResponse;
+import org.authetication.ecommerce.services.product.ProductService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -25,8 +22,17 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ApiBaseResponse<ProductReponse>> addProduct(@Valid @RequestBody AddProductRequest request) {
-        ProductEntity newProduct = this.productService.addProduct(request);
-        return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", ProductRespMapper.toResponse(newProduct)));
+     public ResponseEntity<ApiBaseResponse<ProductResponse>> addProduct(@Valid @RequestBody ProductRequestDto productPayload) {
+        return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", productService.createProduct(productPayload)));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiBaseResponse<List<ProductResponse>>> addProduct() {
+        return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", productService.getAllProducts()));
+    }
+    // @PostMapping("/add")
+    // public ResponseEntity<ApiBaseResponse<ProductResponse>> addProduct(@Valid @RequestBody AddProductRequest request) {
+    //     ProductEntity newProduct = this.productService.addProduct(request);
+    //     return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", ProductRespMapper.toResponse(newProduct)));
+    // }
 }

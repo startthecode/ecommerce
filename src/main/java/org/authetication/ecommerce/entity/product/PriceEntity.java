@@ -24,6 +24,10 @@ public class PriceEntity {
         this.price = price;
     }
 
+    public PriceEntity( double price) {
+        this.price = price;
+    }
+
     public PriceEntity() {
     }
 

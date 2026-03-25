@@ -63,11 +63,11 @@ public class ProductEntity {
     @JoinColumn(name = "brand")
     private BrandEntity brand;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image")
     private ImagesEntity images;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "price")
     private PriceEntity price;
 
@@ -78,7 +78,9 @@ public class ProductEntity {
     private Set<TagsEntity> tags;
 
     @ManyToMany
-    @JoinTable(name = "products_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JoinTable(name = "products_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<CategoryEntity> categories;
 
     @PreUpdate

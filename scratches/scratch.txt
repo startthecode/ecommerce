@@ -1,0 +1,16 @@
+1. Learn about below 👍👍
+
+ @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_seq")
+   @SequenceGenerator(name = "status_seq", sequenceName = "status_seq", allocationSize = 1)
+   private Long statusid;
+
+1. Learn about above 👍👍
+
+
+
+
+
+
+❤️❤️
+1. Exception handle if user try hit api with some token, but there is no data in db for user

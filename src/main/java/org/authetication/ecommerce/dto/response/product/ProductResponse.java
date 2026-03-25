@@ -1,14 +1,17 @@
 package org.authetication.ecommerce.dto.response.product;
 
+import org.authetication.ecommerce.dto.request.products.ImagesDto;
+import org.authetication.ecommerce.dto.request.products.PriceDto;
 
-public record ProductReponse(
+public record ProductResponse(
+
+        Long productid,
         String title,
         String description,
         String brand,
-        Double price,
-        Double compare_at_price,
+        PriceDto price,
         String status,
-        Object imageUrl,
+        ImagesDto images,
         String[] tags,
         String[] categories,
         int stockQuantity,
