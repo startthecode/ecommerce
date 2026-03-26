@@ -1,8 +1,10 @@
 package org.authetication.ecommerce.services.product;
 
 import jakarta.transaction.Transactional;
+import org.authetication.ecommerce.Mapping.products.PriceMapper;
 import org.authetication.ecommerce.Mapping.products.ProductMapper;
 import org.authetication.ecommerce.dto.request.products.ProductRequestDto;
+import org.authetication.ecommerce.dto.request.products.ProductUpdateReqDto;
 import org.authetication.ecommerce.dto.response.product.ProductResponse;
 import org.authetication.ecommerce.entity.product.*;
 import org.authetication.ecommerce.enums.Status;
@@ -14,11 +16,14 @@ import java.util.List;
 
 @Service
 public class ProductService {
+    private final PriceRepository priceRepository;
+    private final ImagesRepository imagesRepository;
     ProductRepository productRepository;
     StatusRepository statusRepository;
     BrandsService brandsService;
     TagsService tagsService;
     CategoryService categoryService;
+    PriceMapper priceMapper;
     private final ProductMapper mapper;
 
     public ProductService(
@@ -27,15 +32,18 @@ public class ProductService {
             ProductMapper mapper,
             BrandsService brandsService,
             TagsService tagsService,
-            CategoryService categoryService
-    ) {
+            CategoryService categoryService,
+            PriceMapper priceMapper,
+            PriceRepository priceRepository, ImagesRepository imagesRepository) {
         this.productRepository = productRepository;
         this.statusRepository = statusRepository;
         this.brandsService = brandsService;
         this.tagsService = tagsService;
         this.categoryService = categoryService;
         this.mapper = mapper;
-
+        this.priceMapper  = priceMapper;
+        this.priceRepository = priceRepository;
+        this.imagesRepository = imagesRepository;
     }
 
     @Transactional
@@ -58,7 +66,6 @@ public class ProductService {
         return mapper.tResponse(productRepository.save(newProduct));
     }
 
-
     public List<ProductResponse> getAllProducts(){
         return productRepository
                 .findAllByStatus(statusRepository.
@@ -67,6 +74,31 @@ public class ProductService {
                 .stream()
                 .map(mapper::tResponse)
                 .toList();
+    }
+
+    @Transactional
+    public ProductResponse updateProduct(Long productID, ProductUpdateReqDto req){
+        ProductEntity product = productRepository.findById(productID).orElseThrow(()->new GenericException("Invalid product id"));
+        mapper.toEntityUpdate(req,product);
+        System.out.printf("%s -----------",product.getTitle());
+        if(req.brand() != null) product.setBrand(brandsService.findOrCreate(req.brand()));
+        if(req.price() != null) {
+            PriceEntity prie = priceRepository.findById(product.getPrice().getPriceid()).orElseThrow(()->new GenericException("price get fails"));
+            priceMapper.toUpdateEntity(req.price(),prie);
+            priceRepository.save(prie);
+        };
+        if(req.images() != null){
+            ImagesEntity images = imagesRepository.findById(product.getImages().getImageid()).orElseThrow(()->new GenericException("price get fails"));
+            if(req.images().imagesm() != null) images.setImagesm(req.images().imagesm());
+            if(req.images().thumbnail() != null) images.setThumbnail(req.images().thumbnail());
+            if(req.images().imagelg() != null) images.setImagelg(req.images().imagelg());
+            imagesRepository.save(images);
+        }
+        if(req.tags() != null) product.setTags(tagsService.findOrCreateBatch(req.tags()));
+        if(req.categories() != null) product.setCategories(categoryService.findOrCreateBatch(req.categories()));
+        if(req.status() != null && !req.status().name().equals(product.getStatus().getName().name())) product.setStatus(statusRepository.findAllByName(Status.valueOf(String.valueOf(req.status()))).orElseThrow(()->new GenericException("Invalid Status")));
+        ProductEntity response = productRepository.save(product);
+        return mapper.tResponse(productRepository.save(response));
     }
 
 //    @Transactional

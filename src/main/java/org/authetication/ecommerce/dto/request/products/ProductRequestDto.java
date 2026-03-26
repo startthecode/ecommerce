@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.authetication.ecommerce.enums.Status;
 
-public record ProductRequestDto(@NotBlank(message = "Title can not be blank") String title,
+public record ProductRequestDto(
+        @NotBlank(message = "Title can not be blank") String title,
 
                                 @NotBlank(message = "description can not be blank") String description,
 

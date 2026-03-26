@@ -2,6 +2,7 @@ package org.authetication.ecommerce.controllers;
 
 import jakarta.validation.Valid;
 import org.authetication.ecommerce.dto.request.products.ProductRequestDto;
+import org.authetication.ecommerce.dto.request.products.ProductUpdateReqDto;
 import org.authetication.ecommerce.dto.response.ApiBaseResponse;
 import org.authetication.ecommerce.dto.response.product.ProductResponse;
 import org.authetication.ecommerce.services.product.ProductService;
@@ -24,6 +25,12 @@ public class ProductController {
     @PostMapping("/add")
      public ResponseEntity<ApiBaseResponse<ProductResponse>> addProduct(@Valid @RequestBody ProductRequestDto productPayload) {
         return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", productService.createProduct(productPayload)));
+    }
+
+    @PostMapping("/update/{productid}")
+    public ResponseEntity<ApiBaseResponse<ProductResponse>> updateProduct(@Valid @RequestBody ProductUpdateReqDto productPayload, @PathVariable Long productid) {
+        System.out.println(productid);
+        return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", productService.updateProduct(productid,productPayload)));
     }
 
     @GetMapping("/all")
