@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.authetication.ecommerce.Mapping.ResponseMapper;
 import org.authetication.ecommerce.dto.request.UserLogin;
 import org.authetication.ecommerce.dto.request.UserSignup;
+import org.authetication.ecommerce.dto.request.auth.UserSignUpDto;
 import org.authetication.ecommerce.dto.response.ApiBaseResponse;
 import org.authetication.ecommerce.dto.response.AuthReponse;
 import org.authetication.ecommerce.services.AuthService;
@@ -51,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiBaseResponse<AuthReponse>> signup(@RequestBody UserSignup req, HttpServletResponse res) {
+    public ResponseEntity<ApiBaseResponse<AuthReponse>> signup(@RequestBody UserSignUpDto req, HttpServletResponse res) {
         AuthService.IssuedTokens issuedTokens = this.authService.register(req);
         this.addResponseCookie(res, issuedTokens);
         return ResponseEntity.ok(toResponse(issuedTokens, true, "Login successful"));

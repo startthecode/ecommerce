@@ -2,8 +2,10 @@ package org.authetication.ecommerce.services;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import org.authetication.ecommerce.Mapping.AuthMapper;
 import org.authetication.ecommerce.dto.request.UserLogin;
 import org.authetication.ecommerce.dto.request.UserSignup;
+import org.authetication.ecommerce.dto.request.auth.UserSignUpDto;
 import org.authetication.ecommerce.entity.roles.RolesEntity;
 import org.authetication.ecommerce.entity.user.UserEntity;
 import org.authetication.ecommerce.exception.AuthException;
@@ -27,6 +29,7 @@ public class AuthService{
     AuthenticationManager authManager;
     PasswordEncoder passwordEncoder;
     JwtUtils jwtUtils;
+    AuthMapper authmapper;
 
     public record IssuedTokens(
             String accessToken,
@@ -39,6 +42,7 @@ public class AuthService{
                        AuthenticationManager authManager,
                        PasswordEncoder passwordEncoder,
                        JwtUtils jwtUtils,
+                       AuthMapper authmapper,
                        @Value("${cookie.refreshTokenName}") String cookieName
     ) {
         this.userRepository = userRepository;
@@ -47,33 +51,27 @@ public class AuthService{
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
         this.cookieName = cookieName;
-
+        this.authmapper =  authmapper;
 
     }
 
-    public IssuedTokens register(UserSignup req) {
-       try{
-           if(userRepository.findByUsername(req.username()).isPresent()){
+
+    public IssuedTokens register(UserSignUpDto req) {
+        if(userRepository.findByUsername(req.username()).isPresent()){
                throw new IllegalArgumentException("username Already Exists");
            }
-           UserEntity userEntity = new UserEntity();
-           RolesEntity role = rolesRepository.findByRole("USER");
-           userEntity.setEmail(req.email());
-           userEntity.setUsername(req.username());
-           userEntity.setName(req.name());
-           userEntity.setPassword(passwordEncoder.encode(req.password()));
-           userEntity.setRole(role);
-           UserEntity savedUser = userRepository.save(userEntity);
-           return issueTokens(savedUser.getUsername(),
+        UserEntity entity = authmapper.toEntitySignup(req);
+        entity.setPassword(passwordEncoder.encode(req.password()));
+        entity.setRole(rolesRepository.findByRole("USER"));
+        UserEntity newUser= userRepository.save(entity);
+          return issueTokens(newUser.getUsername(),
                    jwtUtils.generateToken(
                            JwtUtils.TokenType.ACCESS,
                            req.username()),
                    jwtUtils.generateToken(
                            JwtUtils.TokenType.REFRESH,
                            req.username()));
-       }catch (Exception e){
-           throw new GenericException("unable to create user at this moment");
-       }
+
     }
 
     public IssuedTokens login(UserLogin req) {

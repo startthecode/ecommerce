@@ -2,6 +2,7 @@ package org.authetication.ecommerce.entity.user;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import org.authetication.ecommerce.entity.cart.CartEntity;
 import org.authetication.ecommerce.entity.roles.RolesEntity;
 
 @Entity
@@ -34,6 +35,8 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserDtlEntity userdetail;
 
+    @OneToOne(mappedBy = "user")
+    private CartEntity cart;
 
 
     public UserEntity() {}

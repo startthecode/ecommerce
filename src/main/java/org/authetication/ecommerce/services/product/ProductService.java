@@ -13,6 +13,7 @@ import org.authetication.ecommerce.repository.products.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -80,7 +81,6 @@ public class ProductService {
     public ProductResponse updateProduct(Long productID, ProductUpdateReqDto req){
         ProductEntity product = productRepository.findById(productID).orElseThrow(()->new GenericException("Invalid product id"));
         mapper.toEntityUpdate(req,product);
-        System.out.printf("%s -----------",product.getTitle());
         if(req.brand() != null) product.setBrand(brandsService.findOrCreate(req.brand()));
         if(req.price() != null) {
             PriceEntity prie = priceRepository.findById(product.getPrice().getPriceid()).orElseThrow(()->new GenericException("price get fails"));
@@ -100,6 +100,22 @@ public class ProductService {
         ProductEntity response = productRepository.save(product);
         return mapper.tResponse(productRepository.save(response));
     }
+
+
+    public Boolean isProductExist(Long productID){
+        return productRepository.findById(productID).isPresent();
+    }
+
+    public Boolean isProductExist(String title){
+        return productRepository.findByTitle(title).isPresent();
+    }
+
+    public Optional<ProductEntity> getProduct(Long productID) {
+        return productRepository.findById(productID);
+    }
+
+
+
 
 //    @Transactional
 //    public ProductResponse addProduct(AddProductRequest addProductRequest) {

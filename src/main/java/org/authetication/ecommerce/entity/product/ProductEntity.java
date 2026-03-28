@@ -3,12 +3,15 @@ package org.authetication.ecommerce.entity.product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.authetication.ecommerce.entity.cart.CartItemsEntity;
 import org.authetication.ecommerce.enums.Status;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -82,6 +85,9 @@ public class ProductEntity {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<CategoryEntity> categories;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+     Set<CartItemsEntity> cartItems =  new HashSet<>();
 
     @PreUpdate
     @PrePersist

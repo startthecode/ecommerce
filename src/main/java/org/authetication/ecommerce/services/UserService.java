@@ -30,7 +30,6 @@ public class UserService {
     }
 
     public Map<String,Object> createUser(UserDTLCreate req){
-        System.out.println("req");
         Map<String,Object> data = new HashMap<>();
         UserPrincipleImp principal =
                 (UserPrincipleImp) Objects.requireNonNull(SecurityContextHolder
