@@ -13,7 +13,7 @@ public class CartItemsEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long cartItemID;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "cartId")
     CartEntity cart;
 

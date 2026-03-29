@@ -20,7 +20,7 @@ public class CartEntity {
     @JoinColumn(name = "userid")
     UserEntity user;
 
-    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "cart")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart",orphanRemoval = true)
     Set<CartItemsEntity> cartItems = new HashSet<>();
 
     @Column(nullable = false)

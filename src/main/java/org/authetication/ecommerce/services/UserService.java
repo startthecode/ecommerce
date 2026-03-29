@@ -88,4 +88,14 @@ public class UserService {
         userRepo.save(user);
         return  "user roles has been changed from " + oldRole + " to "+ newRole.getRole();
     }
+
+    public UserEntity getCurrentUser(){
+        UserPrincipleImp principal =
+                (UserPrincipleImp) Objects.requireNonNull(SecurityContextHolder
+                                .getContext()
+                                .getAuthentication())
+                        .getPrincipal();
+        assert principal != null;
+        return  principal.getUser();
+    }
 }
