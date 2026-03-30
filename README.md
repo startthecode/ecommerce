@@ -1,4 +1,4 @@
-# 🛒 E-Commerce Backend (Spring Boot)
+# 🛒 RetailPilot (Spring Boot)
 
 A scalable **E-Commerce Backend REST API** built using **Spring Boot**, designed with production-ready architecture practices including **JWT authentication**, **role-based authorization**, **DTO mapping**, and **relational entity modeling**.
 
