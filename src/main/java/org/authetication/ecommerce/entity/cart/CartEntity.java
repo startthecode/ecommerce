@@ -16,7 +16,7 @@ public class CartEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long cartID;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne()
     @JoinColumn(name = "userid")
     UserEntity user;
 

@@ -27,6 +27,11 @@ public class ProductController {
         return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", productService.createProduct(productPayload)));
     }
 
+    @PostMapping("/add/bulk")
+    public ResponseEntity<ApiBaseResponse<List<ProductResponse>>> addProductBulk(@Valid @RequestBody List<ProductRequestDto> productPayload) {
+        return ResponseEntity.ok(new ApiBaseResponse<>(true,"Product has been created", productService.createProductBulk(productPayload)));
+    }
+
     @PostMapping("/update/{productid}")
     public ResponseEntity<ApiBaseResponse<ProductResponse>> updateProduct(@Valid @RequestBody ProductUpdateReqDto productPayload, @PathVariable Long productid) {
         System.out.println(productid);

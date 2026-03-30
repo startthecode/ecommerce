@@ -5,6 +5,5 @@ import java.util.Set;
 public record CartResponseDto(
         Long totalAmount,
         Set<Object> cartItems
-
 ) {
 }

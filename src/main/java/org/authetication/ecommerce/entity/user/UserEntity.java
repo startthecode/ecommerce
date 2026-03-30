@@ -2,7 +2,11 @@ package org.authetication.ecommerce.entity.user;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Set;
+
 import org.authetication.ecommerce.entity.cart.CartEntity;
+import org.authetication.ecommerce.entity.order.OrderEntity;
+import org.authetication.ecommerce.entity.payment.PaymentEntity;
 import org.authetication.ecommerce.entity.roles.RolesEntity;
 
 @Entity
@@ -38,6 +42,12 @@ public class UserEntity {
     @OneToOne(mappedBy = "user")
     private CartEntity cart;
 
+    @OneToMany(mappedBy = "user")
+    Set<OrderEntity> order;
+
+    @OneToMany(mappedBy = "user")
+    Set<PaymentEntity> payments;
+
 
     public UserEntity() {}
 
@@ -64,5 +74,13 @@ public class UserEntity {
 
     public UserDtlEntity getUserdetail() {
         return userdetail;
+    }
+
+    public CartEntity getCart() {
+        return cart;
+    }
+
+    public void setCart(CartEntity cart) {
+        this.cart = cart;
     }
 }

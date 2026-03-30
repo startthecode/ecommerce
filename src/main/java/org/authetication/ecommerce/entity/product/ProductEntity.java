@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.authetication.ecommerce.entity.cart.CartItemsEntity;
+import org.authetication.ecommerce.entity.order.OrderItemsEntity;
 import org.authetication.ecommerce.enums.Status;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -88,6 +89,11 @@ public class ProductEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
      Set<CartItemsEntity> cartItems =  new HashSet<>();
+
+
+    @OneToMany(mappedBy = "product")
+    Set<OrderItemsEntity> order;
+
 
     @PreUpdate
     @PrePersist

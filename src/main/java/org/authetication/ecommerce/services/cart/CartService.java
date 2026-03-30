@@ -15,11 +15,9 @@ import org.authetication.ecommerce.repository.cart.CartRepository;
 import org.authetication.ecommerce.services.UserService;
 import org.authetication.ecommerce.services.imp.UserPrincipleImp;
 import org.authetication.ecommerce.services.product.ProductService;
-import org.mapstruct.Context;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.Objects;
 
 @Service
@@ -110,6 +108,15 @@ public class CartService {
                 .sum();
         userCart.setTotalAmount(total);
         return cartMapper.toResponse(userCart);
+    }
+
+    @Transactional
+    public void removeCart(CartEntity cart){
+        cartRepository.delete(cart);
+    }
+
+    public CartEntity getUserCart(UserEntity user){
+        return cartRepository.findByUser(user).orElseThrow(()-> new GenericException("Your cart is empty"));
     }
 
     private CartEntity findElseCreate(UserEntity user){

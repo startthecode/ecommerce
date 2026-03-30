@@ -12,6 +12,7 @@ import org.authetication.ecommerce.exception.GenericException;
 import org.authetication.ecommerce.repository.products.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,15 @@ public class ProductService {
         return mapper.tResponse(productRepository.save(newProduct));
     }
 
+    @Transactional
+    public List<ProductResponse> createProductBulk(List<ProductRequestDto> productPayload){
+        List<ProductResponse> products = new ArrayList<>();
+        productPayload.forEach(e->{
+            products.add(this.createProduct(e));
+        });
+        return products;
+    }
+
     public List<ProductResponse> getAllProducts(){
         return productRepository
                 .findAllByStatus(statusRepository.
@@ -100,7 +110,6 @@ public class ProductService {
         ProductEntity response = productRepository.save(product);
         return mapper.tResponse(productRepository.save(response));
     }
-
 
     public Boolean isProductExist(Long productID){
         return productRepository.findById(productID).isPresent();

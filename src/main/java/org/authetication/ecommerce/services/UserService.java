@@ -96,6 +96,8 @@ public class UserService {
                                 .getAuthentication())
                         .getPrincipal();
         assert principal != null;
-        return  principal.getUser();
+        Long userId = principal.getUser().getuserid();
+        return userRepo.findAllByUserid(userId)
+                .orElseThrow(() -> new GenericException("User not found"));
     }
 }
